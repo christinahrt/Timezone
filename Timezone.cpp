@@ -7,11 +7,11 @@ void saldoTZ(int *saldoAkun, int saldoSisa);
 void noKartu(int *noRek, int kartuAkun);
 void tampilkanStrukTimezone();
 void menu();
-char *akunTZ, akun1[]="Christina Hartono";
+char *akunTZ, akun1[]="Christina Hartono", akun2[]="Benita Carissa";
 int input, totalsaldo;
-int pin, pin1 = 1122;
-int saldo = 0, saldo1 = 500000;
-int kartu = 0, kartu1 = 221017;
+int pin, pin1 = 1122, pin2 = 2233;
+int saldo = 0, saldo1 = 500000, saldo2 = 750000;
+int kartu = 0, kartu1 = 221017, kartu2 = 568635;
 
 
 void verifikasi(int p, int *inputPin)
@@ -21,13 +21,27 @@ void verifikasi(int p, int *inputPin)
         {
                 *inputPin = p;
                 akunAktif = &akunTZ;
-                *akunAktif = (char*) malloc(100 * sizeof(char));
+                *akunAktif = (char*) malloc (100 * sizeof(char));
                 strcpy(*akunAktif, akun1);
-                printf("\nNama akun : %s\n", akunTZ);
+                printf("\nNama Pemilik : %s\n", akunTZ);
                 saldoTZ(&saldo,saldo1);
-                printf("Saldo akun Rp %d\n", saldo);
+                printf("Jumlah Saldo : Rp %d\n", saldo);
                 noKartu(&kartu,kartu1);
-                printf("Rekening akun :%d\n", kartu);
+                printf("Nomer Kartu :%d\n", kartu);
+              	menu();
+         }
+         
+        else if(p == pin2)
+        {
+                *inputPin = p;
+                akunAktif = &akunTZ;
+                *akunAktif = (char*) malloc (100 * sizeof(char));
+                strcpy(*akunAktif, akun2);
+                printf("\nNama Pemilik : %s\n", akunTZ);
+                saldoTZ(&saldo,saldo2);
+                printf("Jumlah Saldo : Rp %d\n", saldo);
+                noKartu(&kartu,kartu2);
+                printf("Nomer Kartu :%d\n", kartu);
               	menu();
          }
          else
