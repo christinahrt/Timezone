@@ -3,14 +3,15 @@
 #include <string.h>
 void welcome();
 void verifikasi(int p, int *inputPin);
-void saldoATM(int *saldoAkun, int saldoSisa);
-void noRekening(int *noRek, int rekeningAkun);
-void menu(int *input);
-char *akunTZ, akun1[]="John Doe";
-int input;
-int pin, pin1 = 111000;
+void saldoTZ(int *saldoAkun, int saldoSisa);
+void noKartu(int *noRek, int kartuAkun);
+void tampilkanStrukTimezone();
+void menu();
+char *akunTZ, akun1[]="Christina Hartono";
+int input, totalsaldo;
+int pin, pin1 = 1122;
 int saldo = 0, saldo1 = 500000;
-int rek = 0, rek1 = 221017;
+int kartu = 0, kartu1 = 221017;
 
 
 void verifikasi(int p, int *inputPin)
@@ -23,11 +24,11 @@ void verifikasi(int p, int *inputPin)
                 *akunAktif = (char*) malloc(100 * sizeof(char));
                 strcpy(*akunAktif, akun1);
                 printf("\nNama akun : %s\n", akunTZ);
-                saldoATM(&saldo,saldo1);
+                saldoTZ(&saldo,saldo1);
                 printf("Saldo akun Rp %d\n", saldo);
-                noRekening(&rek,rek1);
-                printf("Rekening akun :%d\n", rek);
-              	menu(&input);
+                noKartu(&kartu,kartu1);
+                printf("Rekening akun :%d\n", kartu);
+              	menu();
          }
          else
          {
@@ -53,37 +54,57 @@ void welcome()
  //Memanggil fungsi verifikasi dari file header 'fungsi.h'
 }
 
-void saldoATM(int *saldoAkun, int saldoSisa)
+void saldoTZ(int *saldoAkun, int saldoSisa)
 {
   *saldoAkun = saldoSisa;
 }
 
-void noRekening(int *noRek, int rekeningAkun) 
+void noKartu(int *noRek, int kartuAkun) 
 {
-  *noRek = rekeningAkun;
+  *noRek = kartuAkun;
 }
 
-void menu(int *input){
-	int list;
-	int totalsaldo;
+void menu(){
+	int input;
+
 printf("\n\n");
-printf("                    MENU UTAMA\n");
+printf("===============================================================================================\n");
+printf("\t\t\t\t\t  MENU UTAMA \n");
+printf("===============================================================================================\n\n");
 printf("  1. 50.000\n");
 printf("  2. 100.000\n");
 printf("  3. 150.000 bonus 50.000\n");
 printf("  4. 200.000 bonus 150.000\n");
-printf("  4. 300.000 bonus 300.000\n");
+printf("  5. 300.000 bonus 300.000\n");
 printf("\n\nPILIHAN : ");
 scanf("%d", &input);
-switch(list)
+switch(input)
 {
 	case 1 : //nilai variabel input = 1
   		totalsaldo = saldo + 50000;
+  		printf("\nTotal Saldo: Rp.%d", totalsaldo);
 		break; //Melompat ke baris setelah bagian akhir dari switch
 		
-	case 2 : //nilai variabel input = 1
-		totalsaldo = saldo + 50000;
+	case 2 : //nilai variabel input = 2
+		totalsaldo = saldo + 100000;
+		printf("\nTotal Saldo: Rp.%d", totalsaldo);
 		break; //Melompat ke baris setelah bagian akhir dari switch
+		
+	case 3 : //nilai variabel input = 3
+  		totalsaldo = saldo + 150000 + 50000;
+  		printf("\nTotal Saldo: Rp.%d", totalsaldo);
+		break;
+
+	case 4 : //nilai variabel input = 4
+  		totalsaldo = saldo + 200000 + 150000;
+  		printf("\nTotal Saldo: Rp.%d", totalsaldo);
+		break;
+
+	case 5 : //nilai variabel input = 5
+  		totalsaldo = saldo + 300000 + 300000;
+  		printf("\nTotal Saldo: Rp.%d", totalsaldo);
+		break;
+
     default:
 
     break;
