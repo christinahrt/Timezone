@@ -6,9 +6,10 @@ void verifikasi(int p, int *inputPin);
 void saldoTZ(int *saldoAkun, int saldoSisa);
 void noKartu(int *noRek, int kartuAkun);
 void tampilkanStrukTimezone();
+void prize();
 void menu();
 char *akunTZ, akun1[]="Christina Hartono", akun2[]="Benita Carissa";
-int input, totalsaldo;
+int input, totalsaldo, tiket;
 int pin, pin1 = 1122, pin2 = 2233;
 int saldo = 0, saldo1 = 500000, saldo2 = 750000;
 int kartu = 0, kartu1 = 221017, kartu2 = 568635;
@@ -123,6 +124,36 @@ switch(input)
 
     break;
     
+}
+}
+
+void prize(){
+	int tiket;
+	printf("\n\n");
+	
+printf("===============================================================================================\n");
+printf("\t\t\t\t\t  MENU HADIAH \n");
+printf("===============================================================================================\n\n");
+printf("  1. 50 Tiket = Pulpen\n");
+printf("  2. 100 Tiket = Buku Tulis\n");
+printf("  3. 150 Tiket = Penggaris\n");
+printf("  4. 200 Tiket = Gantungan Kunci\n");
+printf("  5. 250 Tiket = Penghapus Pensil dan Pensil\n");
+printf("  6. 300 Tiket = Boneka Teddy Bear\n");
+printf("  7. 350 Tiket = Bantal Leher\n");
+printf("  8. 400 Tiket = Karet Rambut\n");
+printf("  9. 450 Tiket = Mobil Remot\n");
+printf(" 10. 500 Tiket = Mini Doll\n");
+
+printf("Masukan Jumlah Tiket Anda : ");
+scanf("%d", &tiket);
+
+if (tiket = 50)
+{
+	printf("Anda Mendapatkan Hadiah Nomer 1");
+}
+else{
+	
 }
 }
 
