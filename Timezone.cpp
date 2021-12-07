@@ -26,27 +26,7 @@ int main(){
     header();
 	welcome(); //Fungsi untuk tampilan utama
 	menu();
-//	printf("Namaku adalah %s\n", members[loginedIndex].nama);
-//	printf("Saldo awal adalah %d\n", members[loginedIndex].saldo);
-//	members[0].saldo += 2;
-//	printf("Saldo akhir adalah %d\n\n", members[0].saldo);
-//	printf("Masukkan nama: ");
-//	scanf(" %s", &members[memberSize].nama);
-//	printf("Masukkan kode: ");
-//	scanf(" %s", &members[memberSize].pin);
-//	printf("Masukkan no kartu: ");
-//	scanf(" %s", &members[memberSize].kartu);
-//	printf("Saldo anda: 0\n");
 
-//	strcpy(members[memberSize].nama, "Jodie Mantra");
-//	members[memberSize].nama = "Jodie Mantra";
-//	members[memberSize].pin = 123;
-//	members[memberSize].kartu = 123;
-//	members[memberSize].saldo = 0;
-//	
-//	printf("Nama doiku adalah %s\n", members[2].nama);
-//	
-//	memberSize++;
 	return 0;
 }
 
