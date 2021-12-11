@@ -4,6 +4,7 @@
 void profil();
 void loginmember();
 void daftarbaru();
+void masukteller();
 void menumasuk();
 void menu_program();
 void verifikasi();
@@ -29,10 +30,23 @@ struct Member members[] = {
 	{"Benita Carissa Sutrisno Putri", 2233, 568635, 750000,320},
 };
 
+struct Teller{
+    char namapetugas[50];
+    int pin;
+
+  
+};
+
+struct Teller petugas[] = {
+	{"Putu Ayu", 1111}
+};
+
+
 int main(){
-    profil();
-    menumasuk();
- //Fungsi untuk tampilan utama
+	profil();
+	masukteller();
+	menumasuk();
+	//Fungsi untuk tampilan utama
 	menu_program();
 	menusaldo();
 	tiket();
@@ -60,6 +74,59 @@ void profil (){
     printf  ("=====================================================\n");
 	getchar ();
     system ("cls");
+}
+
+void masukteller(){
+	mengulang:
+	system("cls");
+	
+    int inputPin; //Deklarasi variabel untuk input pin
+    
+    printf  ("=====================================================\n");	
+	printf  ("              SELAMAT DATANG DI TIMEZONE             \n");
+	printf  ("=====================================================\n");
+    
+	//Memasukkan pin
+	printf  ("Masukkan Kode Member   : ");
+	scanf   ("%d", &inputPin);
+	fflush(stdin);
+	
+  verifikasiteller(inputPin);
+}
+
+void verifikasiteller(int pintel){
+	int i;
+	
+  //Perulangan untuk mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
+	for (i = 0; i < memberSize; i++){
+		if (pintel == petugas[i].pintel){
+			loginedIndex = i;
+		}
+	}
+	
+	if(loginedIndex == -1){
+		// jika member tidak ditemukan
+		printf  ("Pegawai Tidak Dikenali \n");
+		printf  ("                                                     \n");
+		printf  ("=====================================================\n");
+		printf  ("           Tekan ENTER  untuk mengulang....          \n");
+	    printf  ("=====================================================\n");
+	
+		getchar();
+		system ("cls");
+		
+		masukteller();
+	}else{
+		// jika member ditemukan
+		printf  ("Nama Pegawai           : %s                          \n", petugas[loginedIndex].namapetugas);
+		printf  ("                                                     \n");
+		printf  ("=====================================================\n");
+		printf  ("          Tekan ENTER  untuk melanjutkan....         \n");
+	    printf  ("=====================================================\n");
+	
+		getchar ();
+		system ("cls");		
+	}
 }
 
 void loginmember(){
