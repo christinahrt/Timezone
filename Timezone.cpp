@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-void welcome();
-void header();
-void verifikasi(int pin);
-void tampilkanStrukTimezone();
-void menu();
-void prize();
-void daftar();
+void profil();
+void loginmember();
+void daftarbaru();
+void menumasuk();
+void menu_program();
+void verifikasi();
+void menusaldo();
+void tiket();
 
 
 char kondisi;
@@ -29,16 +30,17 @@ struct Member members[] = {
 };
 
 int main(){
-    header();
-    daftar();
-	welcome(); //Fungsi untuk tampilan utama
-	menu();
-	prize();
+    profil();
+    menumasuk();
+ //Fungsi untuk tampilan utama
+	menu_program();
+	menusaldo();
+	tiket();
 
 	return 0;
 }
 
-void header (){
+void profil (){
     system ("cls");
 	printf  ("=====================================================\n");	
 	printf  ("                TUGAS BESAR PEMROGRAMAN              \n");
@@ -60,7 +62,7 @@ void header (){
     system ("cls");
 }
 
-void welcome(){
+void loginmember(){
 	mengulang:
 	system("cls");
 	
@@ -78,7 +80,7 @@ void welcome(){
     verifikasi(inputPin);
 }
 
-void daftar(){
+void daftarbaru(){
 	
 	int newPin, i;
 	mengulang:
@@ -149,7 +151,7 @@ void verifikasi(int pin){
 		getchar();
 		system ("cls");
 		
-		welcome();
+		loginmember();
 	}else{
 		// jika member ditemukan
 		printf  ("Nama Member            : %s                          \n", members[loginedIndex].nama);
@@ -166,7 +168,43 @@ void verifikasi(int pin){
 	}
 }
 
-void menu(){
+void menu_program(){
+  system("cls");
+  pilih:
+
+  printf("\n");
+  printf("=======================================================\n");
+  printf("                       MENU PROGRAM                    \n");
+  printf("=======================================================\n");
+  printf("PILIHAN   : \n");
+  printf("1. Tambah Saldo Timezone\n");
+  printf("2. Penukaran Tiket \n");
+  printf("3. Keluar Program \n");
+  printf("\n");
+  printf("MASUKAN PILIHAN : ");
+  scanf("%d", &pilih_menu);
+  system ("cls");
+
+  switch(pilih_menu){
+    case 1:
+    menusaldo();
+    break;
+    case 2:
+    tiket();
+    break;
+    case 3:
+    exit (0);
+    break;
+    default:
+    printf("Ketikkan Pilihan Anda dengan Benar");
+    menu_program();
+    break;
+
+  }
+
+}
+
+void menusaldo(){
 	int input;
 	mengulang:
 	system("cls");
@@ -227,8 +265,17 @@ void menu(){
 	{
 		goto mengulang;
 	}
+	
+	else if((kondisi == 't'||kondisi =='T'))
+	{
+    exit(0);
+	}
+	
+    else 
+    {
+    	printf("Masukkan pilihan dengan benar");
+	}
 }
-
 
 void prize(){
 	int inputtiket;
@@ -297,6 +344,16 @@ void prize(){
 	if(kondisi == 'y'||kondisi =='Y')
 	{
 		goto mengulang;
+	}
+	
+	else if((kondisi == 't'||kondisi =='T'))
+	{
+    exit(0);
+	}
+	
+    else 
+    {
+    	printf("Masukkan pilihan dengan benar");
 	}
 	getchar();
 
