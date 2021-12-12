@@ -3,17 +3,15 @@
 #include <string.h>
 void profil();
 void loginmember();
-void daftarbaru();
-void masukteller();
-void menumasuk();
-void menu_program();
-void verifikasi();
-void verifikasiteller();
+void registrasiMember();
+void loginteller();
+void menuTeller();
+void menuMember();
+void verifikasi(int pin);
 void menusaldo();
 void tiket();
 
 
-char kondisi;
 int loginedIndex = -1;
 int memberSize = 2;
 int pilih_menu;
@@ -36,23 +34,19 @@ struct Member members[] = {
 
 struct Teller{
     char namapetugas[50];
-    int pintel;
+    int pin;
 
+  
 };
 
-struct Teller petugas[] = {
-	{"Putu Ayu", 1111}
+struct Teller petugas= {
+	"Putu Ayu", 1111
 };
 
 
 int main(){
     profil();
-    masukteller();
-    menumasuk();
- //Fungsi untuk tampilan utama
-	menu_program();
-	menusaldo();
-	tiket();
+    loginteller();
 
 	return 0;
 }
@@ -79,67 +73,49 @@ void profil (){
     system ("cls");
 }
 
-void verifikasiteller(int pintel){
-	int i;
-	
-  //Perulangan untuk mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-	for (i = 0; i < memberSize; i++){
-		if (pintel == petugas[i].pintel){
-			loginedIndex = i;
-		}
-	}
-	
-	if(loginedIndex == -1){
-		// jika member tidak ditemukan
-		printf  ("Pegawai Tidak Dikenali \n");
-		printf  ("                                                     \n");
-		printf  ("=====================================================\n");
-		printf  ("           Tekan ENTER  untuk mengulang....          \n");
-	    printf  ("=====================================================\n");
-	
-		getchar();
-		system ("cls");
-		
-		masukteller();
-	}else{
-		// jika member ditemukan
-		printf  ("Nama Pegawai           : %s                          \n", petugas[loginedIndex].namapetugas);
-		printf  ("                                                     \n");
-		printf  ("=====================================================\n");
-		printf  ("          Tekan ENTER  untuk melanjutkan....         \n");
-	    printf  ("=====================================================\n");
-	
-		getchar ();
-		system ("cls");		
-	}
-}
-
-void masukteller(){
+void loginteller(){
+    int inputpin;
     mengulang:
-	system("cls");
-	
-    int inputPin; //Deklarasi variabel untuk input pin
-    
+
     printf  ("=====================================================\n");	
-	printf  ("              SELAMAT DATANG DI TIMEZONE             \n");
+	printf  ("                      LOGIN TELLER                   \n");
 	printf  ("=====================================================\n");
-    
-	//Memasukkan pin
-	printf  ("Masukkan Kode Member   : ");
-	scanf   ("%d", &inputPin);
+	printf  ("Masukkan Kode Petugas   : ");
+	scanf   ("%d", &inputpin);
 	fflush(stdin);
 	
-  verifikasiteller(inputPin);
+	if (inputpin == petugas.pin) 
+	{	
+		printf  ("Nama Petugas            : %s                         \n", petugas.namapetugas);
+		printf  ("=====================================================\n");
+		printf  ("          Tekan ENTER  untuk melanjutkan....         \n");
+   		printf  ("=====================================================\n");
+    	getchar();
+		system ("cls");
+		
+		menuTeller();//Fungsi untuk tampilan utama
+	}
+	
+	else {
+		printf  ("=====================================================\n");
+		printf  ("              Masukkan kode dengan benar             \n");
+		printf  ("           Tekan ENTER  untuk mengulang....          \n");
+		printf  ("=====================================================\n");
+		getchar ();
+		system ("cls");
+		goto mengulang;
+		
+	}
 }
 
-void menumasuk(){
 
-  system("cls");
-  pilih:
-  printf  ("\n");
-  printf  ("=======================================================\n");
-  printf  ("                          MENU                         \n");
-  printf  ("=======================================================\n");
+void menuTeller(){
+
+  mengulang:
+
+  printf  ("=====================================================\n");
+  printf  ("                         MENU                        \n");
+  printf  ("=====================================================\n");
   printf  ("PILIHAN   : \n");
   printf  ("1. Login Member\n");
   printf  ("2. Registrasi Member Baru \n");
@@ -147,29 +123,35 @@ void menumasuk(){
   printf  ("\n");
   printf  ("MASUKAN PILIHAN : ");
   scanf   ("%d", &pilih_menu);
-  
-  system("cls");
+  fflush(stdin);
 
   switch(pilih_menu){
     case 1:
-    loginmember();
-    break;
+	    loginmember();
+	    break;
     case 2:
-    daftarbaru();
-    break;
+	    registrasiMember();
+	    break;
     case 3:
-    exit (0);
-    break;
+	    exit (0);
+	    break;
     default:
-    printf("Ketikkan Pilihan Anda dengan Benar");
-    menumasuk();
-    break;
+		printf  ("=====================================================\n");
+		printf  ("           Pilihan yang Anda masukkan Salah          \n");
+		printf  ("           Tekan ENTER  untuk mengulang....          \n");
+	    printf  ("=====================================================\n");
+	    
+	    getchar();
+		system("cls");       	
+	    goto mengulang;
+	    break;
   }
 
 }
 
+
 void loginmember(){
-  system("cls");
+
 	mengulang:
 	system("cls");
 	
@@ -187,7 +169,7 @@ void loginmember(){
     verifikasi(inputPin);
 }
 
-void daftarbaru(){
+void registrasiMember(){
 	
 	int newPin, i;
 	mengulang:
@@ -216,8 +198,6 @@ void daftarbaru(){
 
 	printf("Masukkan Nama     : ");
 	scanf("%[^\n]",members[memberSize].nama);
-//	fgets(members[memberSize].nama, sizeof(members[memberSize].nama), stdin);
-//	scanf("%s", &members[memberSize].nama);
 	fflush(stdin);
 	
 	printf("Masukkan No Kartu : ");
@@ -235,6 +215,8 @@ void daftarbaru(){
 	printf  ("          Tekan ENTER  untuk melanjutkan....         \n");
     printf  ("=====================================================\n");	
 	getchar();
+	system("cls");
+	menuTeller();
 	
 }
 
@@ -250,10 +232,10 @@ void verifikasi(int pin){
 	
 	if(loginedIndex == -1){
 		// jika member tidak ditemukan
-		printf  ("Member tersebut belum terdaftar \n");
-		printf  ("                                                     \n");
+
 		printf  ("=====================================================\n");
-		printf  ("           Tekan ENTER  untuk mengulang....          \n");
+		printf  ("            Member tersebut belum terdaftar          \n");
+		printf  ("            Tekan ENTER  untuk mengulang...          \n");
 	    printf  ("=====================================================\n");
 	
 		getchar();
@@ -272,18 +254,61 @@ void verifikasi(int pin){
 	    printf  ("=====================================================\n");
 	
 		getchar ();
-		system ("cls");		
+		system ("cls");	
+		menuMember();	
 	}
 }
 
-void menusaldo(){
+void menuMember(){
   system("cls");
+  pilih:
+
+  printf("\n");
+  printf("=====================================================\n");
+  printf("                      MENU PROGRAM                   \n");
+  printf("=====================================================\n");
+  printf("PILIHAN   : \n");
+  printf("1. Tambah Saldo Timezone\n");
+  printf("2. Penukaran Tiket \n");
+  printf("3. Keluar Program \n");
+  printf("\n");
+  printf("MASUKAN PILIHAN : ");
+  scanf("%d", &pilih_menu);
+  system ("cls");
+
+  switch(pilih_menu){
+    case 1:
+	    menusaldo();
+	    break;
+    case 2:
+	    tiket();
+	    break;
+    case 3:
+	    exit (0);
+	    break;
+    default:
+		printf  ("=====================================================\n");
+		printf  ("           Pilihan yang Anda masukkan Salah          \n");
+		printf  ("           Tekan ENTER  untuk mengulang....          \n");
+	    printf  ("=====================================================\n");
+	    
+	    getchar();
+		system("cls");       	
+	    menuMember();
+	    break;
+
+  }
+
+}
+
+void menusaldo(){
+	char kondisi;
 	int input;
 	mengulang:
-	system("cls");
+
 
     printf  ("=====================================================\n");	
-	printf  ("                      MENU TAMBAH SALDO      	     	   \n");
+	printf  ("                   MENU TAMBAH SALDO    	     	   \n");
 	printf  ("=====================================================\n");
 	printf  ("  1. 50.000\n");
 	printf  ("  2. 100.000\n");
@@ -323,6 +348,7 @@ void menusaldo(){
 		    printf  ("=====================================================\n");
 		    getchar();
 		    
+			system("cls");
 			goto mengulang;
 			break;
 	}
@@ -336,64 +362,37 @@ void menusaldo(){
 	
 	if(kondisi == 'y'||kondisi =='Y')
 	{
+		system("cls"); 
 		goto mengulang;
 	}
 	
 	else if((kondisi == 't'||kondisi =='T'))
 	{
-    menu_program();
+	    menuMember();
 	}
 	
     else 
     {
-    	printf("Masukkan pilihan dengan benar");
+		printf  ("=====================================================\n");
+		printf  ("           Pilihan yang Anda masukkan Salah          \n");
+		printf  ("           Tekan ENTER  untuk mengulang....          \n");
+	    printf  ("=====================================================\n");
+	    
+	    getchar();
+	    system("cls"); 
+	    goto mengulang;
 	}
 }
 
 
-void menu_program(){
-  system("cls");
-  pilih:
-
-  printf("\n");
-  printf("=======================================================\n");
-  printf("                       MENU PROGRAM                    \n");
-  printf("=======================================================\n");
-  printf("PILIHAN   : \n");
-  printf("1. Tambah Saldo Timezone\n");
-  printf("2. Penukaran Tiket \n");
-  printf("3. Keluar Program \n");
-  printf("\n");
-  printf("MASUKAN PILIHAN : ");
-  scanf("%d", &pilih_menu);
-  system ("cls");
-
-  switch(pilih_menu){
-    case 1:
-    menusaldo();
-    break;
-    case 2:
-    tiket();
-    break;
-    case 3:
-    exit (0);
-    break;
-    default:
-    printf("Ketikkan Pilihan Anda dengan Benar");
-    menu_program();
-    break;
-
-  }
-
-}
 
 void tiket(){
-  system("cls");
+	char kondisi;
 	int inputtiket;
 	mengulang:
-	system("cls");
 
-    printf  ("\n=====================================================\n");	
+
+    printf  ("=====================================================\n");	
 	printf  ("                      MENU HADIAH     	     	   \n");
 	printf  ("=====================================================\n");
 	printf  ("Jumlah Tiket   : %d                                  \n\n", members[loginedIndex].tiket);
@@ -444,13 +443,24 @@ void tiket(){
 		case 10 :
 			members[loginedIndex].tiket -=500;
 			break;
+		default :
+			printf  ("=====================================================\n");
+			printf  ("           Pilihan yang Anda masukkan Salah          \n");
+			printf  ("           Tekan ENTER  untuk mengulang....          \n");
+		    printf  ("=====================================================\n");
+		    getchar();
+		    
+			goto mengulang;
+			system("cls");
+			break;
+			
 	}
 	
-	printf  ("\nSisa Tiket Anda Sebesar : %d\n", members[loginedIndex].tiket);
+	printf  ("Sisa Tiket Anda Sebesar : %d\n", members[loginedIndex].tiket);
 	printf  ("=====================================================\n");
 	printf  ("            Ingin Tukar Tiket Lagi? (y/t)            \n");
     printf  ("=====================================================\n");
-	scanf("\n%c",&kondisi);
+	scanf("%c",&kondisi);
 	
 	if(kondisi == 'y'||kondisi =='Y')
 	{
@@ -459,7 +469,7 @@ void tiket(){
 	
 	else if((kondisi == 't'||kondisi =='T'))
 	{
-    exit(0);
+	    menuMember();
 	}
 	
     else 
@@ -467,7 +477,6 @@ void tiket(){
     	printf("Masukkan pilihan dengan benar");
 	}
 	getchar();
+	system("cls");
 
 }
-	
-
