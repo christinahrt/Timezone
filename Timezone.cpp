@@ -1,21 +1,25 @@
+//Header yang di gunakan untuk standar input output pada bahasa C.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void profil();
-void loginmember();
-void registrasiMember();
-void loginteller();
-void menuTeller();
-void menuMember();
-void verifikasi(int pin);
-void menusaldo();
-void tiket();
+//Deklarasi fungsi-fungsi yang digunkan pada program 
+void profil();						
+void loginmember();				//Merupakan fungsi yang digunakan untuk meminta user yang telah terdaftar menginputkan kode member 
+void registrasiMember();			//Merupakan fungsi yang digunakan untuk untuk menyimpan perintah-perintah yang dibutuhkan untuk registrasi member
+void loginteller();				//Merupakan fungsi yang digunakan untuk meminta teller yang terdaftar untuk menginputkan kode teller
+void menuTeller();				//Merupakan fungsi yang digunakan untuk menampilkan pilihan menu teller yang ada
+void menuMember();				//Merupakan fungsi yang digunakan untuk meminta user memilih menu yang ada pada menu member
+void verifikasi(int pin);			//Merupakan fungsi yang digunakan memverifikasi kode member yang diinputkan telah terdaftar atau belum
+void menusaldo();				//Merupakan fungsi yang digunakan untuk menambah saldo sesuai dengan yang ada pada pilihan tambah saldo
+void tiket();					//Merupakan fungsi yang digunakan untuk menukarkan tiket sesuai dengan poin tiket yang tersedia pada akun member
 
 int loginedIndex = -1;
 int memberSize = 2;
 int pilih_menu;
 
+
+// Struct Member untuk menyimpan member nama, pin, kartu, saldo, tiket
 struct Member
 {
 	char nama[50];
@@ -30,6 +34,7 @@ struct Member members[] = {
 	{"Benita Carissa Sutrisno Putri", 2233, 568635, 750000, 320},
 };
 
+//Struct Teller untuk menyimpan teller namapetugas, dan pin
 struct Teller
 {
 	char namapetugas[50];
@@ -39,6 +44,8 @@ struct Teller
 struct Teller petugas = {
 	"Putu Ayu", 1111};
 
+
+// fungsi main () adalah kepala dari program ini, dimana program akan di eksekusi oleh fungsi main ini.
 int main()
 {
 	profil();
@@ -72,7 +79,7 @@ void profil()
 
 void loginteller()
 {
-	int inputpin;
+	int inputpin; //Deklarasi untuk variabel input pin
 	mengulang:
 
 	printf("=====================================================\n");
@@ -81,7 +88,8 @@ void loginteller()
 	printf("Masukkan Kode Petugas   : ");
 	scanf("%d", &inputpin);
 	fflush(stdin);
-
+	
+	//Perulangan yang akan ditampilkan jika inputpin yang dimasukkan adalah sama dengan pin petugas
 	if (inputpin == petugas.pin)
 	{
 		printf("Nama Petugas            : %s                         \n", petugas.namapetugas);
@@ -93,7 +101,8 @@ void loginteller()
 
 		menuTeller(); //Fungsi untuk tampilan utama
 	}
-
+	
+	//perulangan yang ditampilkan apabila kode petugas yang diinputkan salah 
 	else
 	{
 		printf("=====================================================\n");
@@ -121,15 +130,21 @@ void menuTeller()
 	printf("MASUKAN PILIHAN : ");
 	scanf("%d", &pilih_menu);
 	fflush(stdin);
-
-	switch (pilih_menu)
+	
+	//pada menu switch case bagian ini , merupakan lanjutan proses dari pilihan yang di inputkan sebelumnya pada pilihan MENU pada menuTeller
+	switch (pilih_menu) 
 	{
+	//pada case 1 ini, karena pegawai memilih login member maka program akan menampilkan menu loginmember dan user akan diminta untuk memasukkan kode member yang selanjutnya akan diverifikasi apakah kode member yang diinputkan terdaftar pada sistem atau tidak
 	case 1:
 		loginmember();
 		break;
+	
+	//pada case 2 ini, karena pegawai memilih registrasi member maka program akan menampilkan menu registrasiMember dan user akan diminta untuk memasukkan data-data yang diperlukan untuk selanjutnya diproses agar user dapat login ke sistem
 	case 2:
 		registrasiMember();
 		break;
+			
+	//pada case 3 ini, karena pegawai memilih exit maka program akan keluar dari sistem.
 	case 3:
 		exit(0);
 		break;
@@ -280,13 +295,18 @@ void menuMember()
 
 	switch (pilih_menu)
 	{
+	//pada case 1, karena user memilih menu saldo maka program akan menampilkan menusaldo dan selanjutnya user akan menambah saldo sesuai dengan yang ada pada pilihan
 	case 1:
 		menusaldo();
 		break;
+			
+	//pada case 2 ini, karena user memilih menu tiket, maka program akan menampilkan menu tiket dimana selanjutnya user akan menukarkan tiket yang dimiliki dengan hadiah yang ditawarkan
 	case 2:
 		tiket();
 		break;
-	case 3:
+		
+	//pada case 3 ini, karena user memilih menu exit, maka program akan berhenti atau user keluar dari program
+	case 3: 
 		exit(0);
 		break;
 	default:
@@ -305,7 +325,7 @@ void menuMember()
 void menusaldo()
 {
 	char kondisi;
-	int input;
+	int input; //deklarasi untuk variabel input
 	mengulang:
 
 	printf("=====================================================\n");
@@ -319,7 +339,8 @@ void menusaldo()
 	printf("\n\nPILIHAN : ");
 	scanf("%d", &input);
 	fflush(stdin);
-
+	
+	
 	switch (input)
 	{
 	case 1: //nilai variabel input = 1
@@ -365,12 +386,12 @@ void menusaldo()
 	if (kondisi == 'y' || kondisi == 'Y')
 	{
 		system("cls");
-		goto mengulang;
+		goto mengulang; //akan kembali ke fungsi menusaldo
 	}
 
 	else if ((kondisi == 'm' || kondisi == 'M'))
 	{
-		menuMember();
+		menuMember(); //akan kembali ke fungsi menuMember
 	}
 
 	else
@@ -389,7 +410,7 @@ void menusaldo()
 void tiket()
 {
 	char kondisi;
-	int inputtiket;
+	int inputtiket; //deklarasi variabel inputtiket
 	mengulang:
 
 	printf("=====================================================\n");
@@ -414,36 +435,57 @@ void tiket()
 
 	switch (inputtiket)
 	{
+	//pada case 1 ini, karena user memilih option nomer 1 maka jumlah tiket yang ada pada akun akan dikurang dengan 50 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 1:
 		members[loginedIndex].tiket - 50;
 		break;
+	
+	//pada case 2 ini, karena user memilih option nomer 2 maka jumlah tiket yang ada pada akun akan dikurang dengan 100 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 2:
 		members[loginedIndex].tiket -= 100;
 		break;
+	
+	//pada case 3 ini, karena user memilih option nomer 3 maka jumlah tiket yang ada pada akun akan dikurang dengan 150 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 3:
 		members[loginedIndex].tiket -= 150;
 		break;
+	
+	//pada case 4 ini, karena user memilih option nomer 4 maka jumlah tiket yang ada pada akun akan dikurang dengan 200 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 4:
 		members[loginedIndex].tiket -= 200;
 		break;
+	
+	//pada case 5 ini, karena user memilih option nomer 5 maka jumlah tiket yang ada pada akun akan dikurang dengan 250 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 5:
 		members[loginedIndex].tiket -= 250;
 		break;
+	
+	//pada case 6 ini, karena user memilih option nomer 6 maka jumlah tiket yang ada pada akun akan dikurang dengan 300 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 6:
 		members[loginedIndex].tiket -= 300;
 		break;
+	
+	//pada case 7 ini, karena user memilih option nomer 7 maka jumlah tiket yang ada pada akun akan dikurang dengan 350 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 7:
 		members[loginedIndex].tiket -= 350;
 		break;
+	
+	//pada case 8 ini, karena user memilih option nomer 8 maka jumlah tiket yang ada pada akun akan dikurang dengan 400 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 8:
 		members[loginedIndex].tiket -= 400;
 		break;
+	
+	//pada case 9 ini, karena user memilih option nomer 9 maka jumlah tiket yang ada pada akun akan dikurang dengan 450 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 9:
 		members[loginedIndex].tiket -= 450;
 		break;
+	
+	//pada case 10 ini, karena user memilih option nomer 10 maka jumlah tiket yang ada pada akun akan dikurang dengan 500 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 10:
 		members[loginedIndex].tiket -= 500;
 		break;
+	
+	//pada case 0 ini, karena user memilih option nomer 0 maka program akan kembali ke menu member 
 	case 0:
 		menuMember();
 		break;
@@ -470,12 +512,12 @@ void tiket()
 
 	if (kondisi == 'y' || kondisi == 'Y')
 	{
-		goto mengulang;
+		goto mengulang; //akan mengulang ke fungsi tiket
 	}
 
 	else if ((kondisi == 'm' || kondisi == 'M'))
 	{
-		menuMember();
+		menuMember(); //program akan kembali ke fungsi menuMember 
 	}
 
 	else
