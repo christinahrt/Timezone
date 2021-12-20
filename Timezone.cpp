@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-//Deklarasi fungsi-fungsi yang digunkan pada program 
+//Deklarasi fungsi-fungsi yang digunakan pada program 
 void profil();						
 void loginmember();				//Merupakan fungsi yang digunakan untuk meminta user yang telah terdaftar menginputkan kode member 
 void registrasiMember();			//Merupakan fungsi yang digunakan untuk untuk menyimpan perintah-perintah yang dibutuhkan untuk registrasi member
@@ -14,9 +14,9 @@ void verifikasi(int pin);			//Merupakan fungsi yang digunakan memverifikasi kode
 void menusaldo();				//Merupakan fungsi yang digunakan untuk menambah saldo sesuai dengan yang ada pada pilihan tambah saldo
 void tiket();					//Merupakan fungsi yang digunakan untuk menukarkan tiket sesuai dengan poin tiket yang tersedia pada akun member
 
-int loginedIndex = -1;
-int memberSize = 2;
-int pilih_menu;
+int loginedIndex = -1;				//inisialisasi variabel loginIndex untuk menyimpan
+int memberSize = 2;				//inisialisasi variabel memberSize untuk menyimpan banyaknya member yang sudah terdaftar
+int pilih_menu;					//variabel untuk menyimpan pilihan yang dimasukan oleh user untuk di proses ke switch case pada fungsi menuTeller dan menuMember
 
 
 // Struct Member untuk menyimpan member nama, pin, kartu, saldo, tiket
@@ -29,6 +29,7 @@ struct Member
 	int tiket;
 };
 
+//Mendeklarasikan struct Member dengan variabel members beserta dengan 
 struct Member members[] = {
 	{"Maria Christina Hartono", 1122, 221017, 500000, 611},
 	{"Benita Carissa Sutrisno Putri", 2233, 568635, 750000, 320},
@@ -41,6 +42,7 @@ struct Teller
 	int pin;
 };
 
+//Mendeklarasikan struct Teller dengan variabel petugas
 struct Teller petugas = {
 	"Putu Ayu", 1111};
 
@@ -175,7 +177,7 @@ void loginmember()
 	//Memasukkan pin
 	printf("Masukkan Kode Member   : ");
 	scanf("%d", &inputPin);
-	fflush(stdin);
+	fflush(stdin); //Perintah untuk membersihkan buffer
 
 	verifikasi(inputPin);
 }
@@ -183,12 +185,13 @@ void loginmember()
 void registrasiMember()
 {
 
-	int newPin, i;
+	int newPin; //deklarasi variabel newPin untuk kode registrasi member baru
+	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
 	mengulang:
 	system("cls");
 
 	printf("=====================================================\n");
-	printf("               REGISTRASI MEMBER BARU      	   	   \n");
+	printf("               REGISTRASI MEMBER BARU      	     \n");
 	printf("=====================================================\n");
 
 	printf("Masukkan Kode     : ");
@@ -235,7 +238,7 @@ void registrasiMember()
 
 void verifikasi(int pin)
 {
-	int i;
+	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
 
 	//Perulangan untuk mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
 	for (i = 0; i < memberSize; i++)
@@ -324,7 +327,7 @@ void menuMember()
 
 void menusaldo()
 {
-	char kondisi;
+	char kondisi; //deklarasi untuk variabel input
 	int input; //deklarasi untuk variabel input
 	mengulang:
 
@@ -409,7 +412,7 @@ void menusaldo()
 
 void tiket()
 {
-	char kondisi;
+	char kondisi; //deklarasi variabel kondisi
 	int inputtiket; //deklarasi variabel inputtiket
 	mengulang:
 
