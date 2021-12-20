@@ -85,7 +85,7 @@ void loginteller()
 	mengulang:
 
 	printf("=====================================================\n");
-	printf("                      LOGIN TELLER                   \n");
+	printf("                     LOGIN PETUGAS                   \n");
 	printf("=====================================================\n");
 	printf("Masukkan Kode Petugas   : ");
 	scanf("%d", &inputpin);
@@ -96,6 +96,7 @@ void loginteller()
 	{
 		printf("Nama Petugas            : %s                         \n", petugas.namapetugas);
 		printf("=====================================================\n");
+		printf("                  Petugas Terdeteksi                 \n");
 		printf("          Tekan ENTER  untuk melanjutkan....         \n");
 		printf("=====================================================\n");
 		getchar();
@@ -339,6 +340,8 @@ void menusaldo()
 	printf("  3. 150.000 bonus 50.000\n");
 	printf("  4. 200.000 bonus 150.000\n");
 	printf("  5. 300.000 bonus 300.000\n");
+	printf("  0. Kembali\n\n");
+
 	printf("\n\nPILIHAN : ");
 	scanf("%d", &input);
 	fflush(stdin);
@@ -364,6 +367,10 @@ void menusaldo()
 
 	case 5: //nilai variabel input = 5
 		members[loginedIndex].saldo += 300000 + 300000;
+		break;
+	case 0:
+		system("cls");
+		menuMember();
 		break;
 
 	default:
@@ -394,6 +401,7 @@ void menusaldo()
 
 	else if ((kondisi == 'm' || kondisi == 'M'))
 	{
+		system("cls");
 		menuMember(); //akan kembali ke fungsi menuMember
 	}
 
@@ -490,6 +498,7 @@ void tiket()
 	
 	//pada case 0 ini, karena user memilih option nomer 0 maka program akan kembali ke menu member 
 	case 0:
+		system("cls");
 		menuMember();
 		break;
 	default:
