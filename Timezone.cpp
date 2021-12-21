@@ -5,12 +5,11 @@
 
 //Deklarasi fungsi-fungsi yang digunakan pada program 
 void profil();						
-void loginmember();				//Merupakan fungsi yang digunakan untuk meminta user yang telah terdaftar menginputkan kode member 
+void loginmember();				//Merupakan fungsi yang digunakan untuk meminta user menginputkan kode member yang telah terdaftar 
 void registrasiMember();			//Merupakan fungsi yang digunakan untuk untuk menyimpan perintah-perintah yang dibutuhkan untuk registrasi member
 void loginteller();				//Merupakan fungsi yang digunakan untuk meminta teller yang terdaftar untuk menginputkan kode teller
 void menuTeller();				//Merupakan fungsi yang digunakan untuk menampilkan pilihan menu teller yang ada
 void menuMember();				//Merupakan fungsi yang digunakan untuk meminta user memilih menu yang ada pada menu member
-void verifikasi(int pin);			//Merupakan fungsi yang digunakan memverifikasi kode member yang diinputkan telah terdaftar atau belum
 void menusaldo();				//Merupakan fungsi yang digunakan untuk menambah saldo sesuai dengan yang ada pada pilihan tambah saldo
 void tiket();					//Merupakan fungsi yang digunakan untuk menukarkan tiket sesuai dengan poin tiket yang tersedia pada akun member
 
@@ -167,7 +166,8 @@ void menuTeller()
 void loginmember()
 {
 
-	int inputPin; //Deklarasi variabel untuk input pin
+	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
+	int pin;
 	mengulang:
 	system("cls");
 
@@ -177,11 +177,50 @@ void loginmember()
 
 	//Memasukkan pin
 	printf("Masukkan Kode Member   : ");
-	scanf("%d", &inputPin);
+	scanf("%d", &pin);
 	fflush(stdin); //Perintah untuk membersihkan buffer
 
-	verifikasi(inputPin);
+	//Perulangan untuk mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
+	for (i = 0; i < memberSize; i++)
+	{
+		if (pin == members[i].pin)
+		{
+			loginedIndex = i;
+		}
+	}
+
+	if (loginedIndex == -1)
+	{
+		// jika member tidak ditemukan
+
+		printf("=====================================================\n");
+		printf("            Member tersebut belum terdaftar          \n");
+		printf("            Tekan ENTER  untuk mengulang...          \n");
+		printf("=====================================================\n");
+
+		getchar();
+		system("cls");
+
+		loginmember();
+	}
+	else
+	{
+		// jika member ditemukan
+		printf("Nama Member            : %s                          \n", members[loginedIndex].nama);
+		printf("Nomer Kartu            : %d                          \n", members[loginedIndex].kartu);
+		printf("Jumlah Saldo           : Rp %d                       \n", members[loginedIndex].saldo);
+		printf("Jumlah Tiket           : %d                          \n", members[loginedIndex].tiket);
+		printf("                                                     \n");
+		printf("=====================================================\n");
+		printf("          Tekan ENTER  untuk melanjutkan....         \n");
+		printf("=====================================================\n");
+
+		getchar();
+		system("cls");
+		menuMember();
+	}
 }
+
 
 void registrasiMember()
 {
@@ -237,50 +276,6 @@ void registrasiMember()
 	menuTeller();
 }
 
-void verifikasi(int pin)
-{
-	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-
-	//Perulangan untuk mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-	for (i = 0; i < memberSize; i++)
-	{
-		if (pin == members[i].pin)
-		{
-			loginedIndex = i;
-		}
-	}
-
-	if (loginedIndex == -1)
-	{
-		// jika member tidak ditemukan
-
-		printf("=====================================================\n");
-		printf("            Member tersebut belum terdaftar          \n");
-		printf("            Tekan ENTER  untuk mengulang...          \n");
-		printf("=====================================================\n");
-
-		getchar();
-		system("cls");
-
-		loginmember();
-	}
-	else
-	{
-		// jika member ditemukan
-		printf("Nama Member            : %s                          \n", members[loginedIndex].nama);
-		printf("Nomer Kartu            : %d                          \n", members[loginedIndex].kartu);
-		printf("Jumlah Saldo           : Rp %d                       \n", members[loginedIndex].saldo);
-		printf("Jumlah Tiket           : %d                          \n", members[loginedIndex].tiket);
-		printf("                                                     \n");
-		printf("=====================================================\n");
-		printf("          Tekan ENTER  untuk melanjutkan....         \n");
-		printf("=====================================================\n");
-
-		getchar();
-		system("cls");
-		menuMember();
-	}
-}
 
 void menuMember()
 {
@@ -512,6 +507,8 @@ void tiket()
 		system("cls");
 		break;
 	}
+	
+	
 
 	printf("Sisa Tiket Anda Sebesar : %d\n", members[loginedIndex].tiket);
 	printf("=====================================================\n");
