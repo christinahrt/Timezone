@@ -5,35 +5,29 @@
 
 //Deklarasi fungsi-fungsi yang digunakan pada program
 void profil();
-void loginmember();				//Merupakan fungsi yang digunakan untuk meminta user menginputkan kode member yang telah terdaftar
-void registrasiMember();			//Merupakan fungsi yang digunakan untuk untuk menyimpan perintah-perintah yang dibutuhkan untuk registrasi member
-void loginteller();				//Merupakan fungsi yang digunakan untuk meminta teller yang terdaftar untuk menginputkan kode teller
-void menuTeller();				//Merupakan fungsi yang digunakan untuk menampilkan pilihan menu teller yang ada
-void menuMember();				//Merupakan fungsi yang digunakan untuk meminta user memilih menu yang ada pada menu member
-void menusaldo();				//Merupakan fungsi yang digunakan untuk menambah saldo sesuai dengan yang ada pada pilihan tambah saldo
-void tiket();					//Merupakan fungsi yang digunakan untuk menukarkan tiket sesuai dengan poin tiket yang tersedia pada akun member
-void redeemTiket(int requirement); 		//Merupakan fungsi yang digunakan untuk mengecek ketersediaan tiket member
+void loginmember();				   //fungsi yang digunakan untuk meminta user menginputkan kode member yang telah terdaftar
+void registrasiMember();		   //fungsi yang digunakan untuk untuk menyimpan perintah-perintah yang dibutuhkan untuk registrasi member
+void loginteller();				   //fungsi yang digunakan untuk meminta teller yang terdaftar untuk menginputkan kode teller
+void menuTeller();				   //fungsi yang digunakan untuk menampilkan pilihan menu teller yang ada
+void menuMember();				   //fungsi yang digunakan untuk meminta user memilih menu yang ada pada menu member
+void menusaldo();				   //fungsi yang digunakan untuk menambah saldo sesuai dengan yang ada pada pilihan tambah saldo
+void tiket();					   //fungsi yang digunakan untuk menukarkan tiket sesuai dengan poin tiket yang tersedia pada akun member
+void redeemTiket(int requirement); //fungsi yang digunakan untuk mengecek ketersediaan tiket member
+void updateDataMember();		   //fungsi yang digunakan untuk memperbarui data member
 
-int loginedIndex = -1;				//inisialisasi variabel loginIndex untuk menyimpan variabel member yang sudah login
-int memberSize = 2;				//inisialisasi variabel memberSize untuk menyimpan banyaknya member yang sudah terdaftar
-int pilih_menu;					//variabel untuk menyimpan pilihan yang dimasukan oleh user untuk di proses ke switch case pada fungsi menuTeller dan menuMember
-
+int pilih_menu; //variabel untuk menyimpan pilihan yang dimasukan oleh user untuk di proses ke switch case pada fungsi menuTeller dan menuMember
 
 //Struct Member untuk menyimpan member nama, pin, kartu, saldo, tiket
-struct Member
+typedef struct
 {
 	char nama[50];
 	int pin;
 	int kartu;
 	int saldo;
 	int tiket;
-};
+} Member;
 
-//Mendeklarasikan list struct Member dengan variabel members berisi data tiap member
-struct Member members[] = {
-	{"Maria Christina Hartono", 1122, 221017, 500000, 611},
-	{"Benita Carissa Sutrisno Putri", 2233, 568635, 750000, 320},
-};
+Member loginedMember;
 
 //Struct Teller untuk menyimpan teller namapetugas, dan pin
 struct Teller
@@ -46,13 +40,11 @@ struct Teller
 struct Teller petugas = {
 	"Putu Ayu", 1111};
 
-
-//fungsi main () adalah kepala dari program ini, dimana program akan di eksekusi oleh fungsi main ini.
+// fungsi main () adalah kepala dari program ini, dimana program akan di eksekusi oleh fungsi main ini.
 int main()
 {
 	profil();
 	loginteller();
-
 	return 0;
 }
 
@@ -82,7 +74,7 @@ void profil()
 void loginteller()
 {
 	int inputpin; //Deklarasi untuk variabel input pin
-	mengulang:
+mengulang:
 
 	printf("=====================================================\n");
 	printf("                     LOGIN PETUGAS                   \n");
@@ -91,7 +83,7 @@ void loginteller()
 	scanf("%d", &inputpin);
 	fflush(stdin);
 
-	//Perulangan yang akan ditampilkan jika inputpin yang dimasukkan adalah sama dengan pin petugas
+	//Percabangan yang akan ditampilkan jika inputpin yang dimasukkan adalah sama dengan pin petugas
 	if (inputpin == petugas.pin)
 	{
 		printf("Nama Petugas            : %s                         \n", petugas.namapetugas);
@@ -105,7 +97,7 @@ void loginteller()
 		menuTeller(); //Fungsi untuk tampilan utama
 	}
 
-	//perulangan yang ditampilkan apabila kode petugas yang diinputkan salah
+	//Percabangan yang ditampilkan apabila kode petugas yang diinputkan salah
 	else
 	{
 		printf("=====================================================\n");
@@ -120,7 +112,7 @@ void loginteller()
 
 void menuTeller()
 {
-	mengulang:
+mengulang:
 
 	printf("=====================================================\n");
 	printf("                         MENU                        \n");
@@ -134,7 +126,7 @@ void menuTeller()
 	scanf("%d", &pilih_menu);
 	fflush(stdin);
 
-	//pada menu switch case bagian ini , merupakan lanjutan proses dari pilihan yang di inputkan sebelumnya pada pilihan MENU pada menuTeller
+	//pada menu switch case bagian ini ,  lanjutan proses dari pilihan yang di inputkan sebelumnya pada pilihan MENU pada menuTeller
 	switch (pilih_menu)
 	{
 	//pada case 1 ini, karena pegawai memilih login member maka program akan menampilkan menu loginmember dan user akan diminta untuk memasukkan kode member yang selanjutnya akan diverifikasi apakah kode member yang diinputkan terdaftar pada sistem atau tidak
@@ -167,9 +159,11 @@ void menuTeller()
 void loginmember()
 {
 
-	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-	int pin;
-	mengulang:
+	int i;	 // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
+	int pin; // deklarasi variabel pin untuk memasukkan kode member
+
+	FILE *regis = fopen("data.txt", "a+");
+mengulang:
 	system("cls");
 
 	printf("=====================================================\n");
@@ -181,93 +175,102 @@ void loginmember()
 	scanf("%d", &pin);
 	fflush(stdin); //Perintah untuk membersihkan buffer
 
-	//Perulangan untuk mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-	for (i = 0; i < memberSize; i++)
+	while (!feof(regis))
 	{
-		if (pin == members[i].pin)
+		Member member;
+
+		fscanf(regis, "%[^#]#%d#%d#%d#%d\n", &member.nama, &member.pin, &member.kartu, &member.saldo, &member.tiket);
+		fflush(stdin);
+
+		if (member.pin == pin)
 		{
-			loginedIndex = i;
+			loginedMember = member;
+			// jika member ditemukan
+			printf("Nama Member            : %s                          \n", member.nama);
+			printf("Nomer Kartu            : %d                          \n", member.kartu);
+			printf("Jumlah Saldo           : Rp %d                       \n", member.saldo);
+			printf("Jumlah Tiket           : %d                          \n", member.tiket);
+			printf("                                                     \n");
+			printf("=====================================================\n");
+			printf("          Tekan ENTER  untuk melanjutkan....         \n");
+			printf("=====================================================\n");
+
+			getchar();
+			system("cls");
+			fclose(regis);
+			menuMember();
 		}
-	}
+		i++;
+	};
 
-	if (loginedIndex == -1)
-	{
-		// jika member tidak ditemukan
+	printf("=====================================================\n");
+	printf("            Member tersebut belum terdaftar          \n");
+	printf("            Tekan ENTER  untuk mengulang...          \n");
+	printf("=====================================================\n");
 
-		printf("=====================================================\n");
-		printf("            Member tersebut belum terdaftar          \n");
-		printf("            Tekan ENTER  untuk mengulang...          \n");
-		printf("=====================================================\n");
+	getchar();
+	system("cls");
 
-		getchar();
-		system("cls");
-
-		loginmember();
-	}
-	else
-	{
-		// jika member ditemukan
-		printf("Nama Member            : %s                          \n", members[loginedIndex].nama);
-		printf("Nomer Kartu            : %d                          \n", members[loginedIndex].kartu);
-		printf("Jumlah Saldo           : Rp %d                       \n", members[loginedIndex].saldo);
-		printf("Jumlah Tiket           : %d                          \n", members[loginedIndex].tiket);
-		printf("                                                     \n");
-		printf("=====================================================\n");
-		printf("          Tekan ENTER  untuk melanjutkan....         \n");
-		printf("=====================================================\n");
-
-		getchar();
-		system("cls");
-		menuMember();
-	}
+	loginmember();
+	fclose(regis);
 }
-
 
 void registrasiMember()
 {
 
-	int newPin; //deklarasi variabel newPin untuk kode registrasi member baru
 	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-	mengulang:
+	Member newMember;
+
+	FILE *regis = fopen("data.txt", "a+");
+
+mengulang:
 	system("cls");
 
 	printf("=====================================================\n");
-	printf("               REGISTRASI MEMBER BARU      	     \n");
+	printf("                REGISTRASI MEMBER BARU      	     \n");
 	printf("=====================================================\n");
 
 	printf("Masukkan Kode     : ");
-	scanf("%d", &newPin);
+	scanf("%d", &newMember.pin);
 	fflush(stdin);
 
-	for (i = 0; i < memberSize; i++)
+	while (!feof(regis))
 	{
-		if (newPin == members[i].pin)
+		Member member;
+
+		fscanf(regis, "%[^#]#%d#%d#%d#%d\n", &member.nama, &member.pin, &member.kartu, &member.saldo, &member.tiket);
+		fflush(stdin);
+
+		if (member.pin == newMember.pin)
 		{
 			printf("=====================================================\n");
 			printf("          Kode Sudah Digunakan. Coba Lainnya         \n");
 			printf("           Tekan ENTER  untuk mengulang....          \n");
 			printf("=====================================================\n");
-			getchar();
+			getch();
 			goto mengulang;
 		}
-	}
-
-	members[memberSize].pin = newPin;
+		i++;
+	};
 
 	printf("Masukkan Nama     : ");
-	scanf("%[^\n]", members[memberSize].nama);
+	scanf("%[^\n]", newMember.nama);
 	fflush(stdin);
 
 	printf("Masukkan No Kartu : ");
-	scanf("%d", &members[memberSize].kartu);
+	scanf("%d", &newMember.kartu);
 	fflush(stdin);
 
 	printf("Saldo Anda        : 0\n");
-	members[memberSize].saldo = 0;
+	newMember.saldo = 0;
 
-	memberSize++;
+	printf("Tiket Anda        : 0\n");
+	newMember.tiket = 0;
 
-	printf("\nMember %s telah didaftarkan\n", members[memberSize - 1].nama);
+	fprintf(regis, "%s#%d#%d#%d#%d\n", newMember.nama, newMember.pin, newMember.kartu, newMember.saldo, newMember.tiket);
+	fclose(regis);
+
+	printf("\nMember %s telah didaftarkan\n", newMember.nama);
 	printf("=====================================================\n");
 	printf("            Member Baru Berhasil Terdaftar           \n");
 	printf("          Tekan ENTER  untuk melanjutkan....         \n");
@@ -276,7 +279,6 @@ void registrasiMember()
 	system("cls");
 	menuTeller();
 }
-
 
 void menuMember()
 {
@@ -325,8 +327,8 @@ void menuMember()
 void menusaldo()
 {
 	char kondisi; //deklarasi untuk variabel kondisi
-	int input; //deklarasi untuk variabel input
-	mengulang:
+	int input;	  //deklarasi untuk variabel input
+mengulang:
 
 	printf("=====================================================\n");
 	printf("                   MENU TAMBAH SALDO    	     	   \n");
@@ -342,27 +344,31 @@ void menusaldo()
 	scanf("%d", &input);
 	fflush(stdin);
 
-
 	switch (input)
 	{
 	case 1: //nilai variabel input = 1
-		members[loginedIndex].saldo += 50000;
+		loginedMember.saldo += 50000;
+		updateDataMember();
 		break; //Melompat ke baris setelah bagian akhir dari switch
 
 	case 2: //nilai variabel input = 2
-		members[loginedIndex].saldo += 100000;
+		loginedMember.saldo += 100000;
+		updateDataMember();
 		break; //Melompat ke baris setelah bagian akhir dari switch
 
 	case 3: //nilai variabel input = 3
-		members[loginedIndex].saldo += 150000 + 50000;
+		loginedMember.saldo += 150000 + 50000;
+		updateDataMember();
 		break;
 
 	case 4: //nilai variabel input = 4
-		members[loginedIndex].saldo += 200000 + 150000;
+		loginedMember.saldo += 200000 + 150000;
+		updateDataMember();
 		break;
 
 	case 5: //nilai variabel input = 5
-		members[loginedIndex].saldo += 300000 + 300000;
+		loginedMember.saldo += 300000 + 300000;
+		updateDataMember();
 		break;
 	case 0:
 		system("cls");
@@ -381,7 +387,7 @@ void menusaldo()
 		break;
 	}
 
-	printf("\nTotal Saldo: Rp.%d\n", members[loginedIndex].saldo);
+	//	printf("\nTotal Saldo: Rp.%d\n", members[loginedIndex].saldo);
 	printf("=====================================================\n");
 	printf("                Saldo Berhasil Diisi                 \n");
 	printf("          Ingin Isi Saldo Lagi? (tekan 'y')          \n");
@@ -417,24 +423,55 @@ void menusaldo()
 
 void tiket()
 {
-	char kondisi; //deklarasi variabel kondisi
+	char kondisi;	//deklarasi variabel kondisi
 	int inputtiket; //deklarasi variabel inputtiket
-	mengulang:
+mengulang:
 
 	printf("=====================================================\n");
 	printf("                      MENU HADIAH     	     	     \n");
 	printf("=====================================================\n");
-	printf("Jumlah Tiket   : %d                                  \n\n", members[loginedIndex].tiket);
-	printf("  1. 50 Tiket  = Pulpen\n");
-	printf("  2. 100 Tiket = Buku Tulis\n");
-	printf("  3. 150 Tiket = Penggaris\n");
-	printf("  4. 200 Tiket = Gantungan Kunci\n");
-	printf("  5. 250 Tiket = Penghapus Pensil dan Pensil\n");
-	printf("  6. 300 Tiket = Boneka Teddy Bear\n");
-	printf("  7. 350 Tiket = Bantal Leher\n");
-	printf("  8. 400 Tiket = Karet Rambut\n");
-	printf("  9. 450 Tiket = Mobil Remot\n");
-	printf(" 10. 500 Tiket = Mini Doll\n");
+	printf("Jumlah Tiket   : %d                                  \n\n", loginedMember.tiket);
+
+	if (loginedMember.tiket >= 50)
+	{
+		printf("  1. 50 Tiket  = Pulpen\n");
+	}
+	if (loginedMember.tiket >= 100)
+	{
+		printf("  2. 100 Tiket = Buku Tulis\n");
+	}
+	if (loginedMember.tiket >= 150)
+	{
+		printf("  3. 150 Tiket = Penggaris\n");
+	}
+	if (loginedMember.tiket >= 200)
+	{
+		printf("  4. 200 Tiket = Gantungan Kunci\n");
+	}
+	if (loginedMember.tiket >= 250)
+	{
+		printf("  5. 250 Tiket = Penghapus Pensil dan Pensil\n");
+	}
+	if (loginedMember.tiket >= 300)
+	{
+		printf("  6. 300 Tiket = Boneka Teddy Bear\n");
+	}
+	if (loginedMember.tiket >= 350)
+	{
+		printf("  7. 350 Tiket = Bantal Leher\n");
+	}
+	if (loginedMember.tiket >= 400)
+	{
+		printf("  8. 400 Tiket = Karet Rambut\n");
+	}
+	if (loginedMember.tiket >= 450)
+	{
+		printf("  9. 450 Tiket = Mobil Remot\n");
+	}
+	if (loginedMember.tiket >= 500)
+	{
+		printf(" 10. 500 Tiket = Mini Doll\n");
+	}
 	printf("  0. Kembali\n\n");
 
 	printf("Masukan Pilihan Hadiah : ");
@@ -505,14 +542,12 @@ void tiket()
 		printf("=====================================================\n");
 		getchar();
 
-		goto mengulang;
 		system("cls");
+		goto mengulang;
 		break;
 	}
 
-
-
-	printf("Sisa Tiket Anda Sebesar : %d\n", members[loginedIndex].tiket);
+	printf("Sisa Tiket Anda Sebesar : %d\n", loginedMember.tiket);
 	printf("=====================================================\n");
 	printf("           Penukaran Tiket Telah Berhasil            \n");
 	printf("         Ingin Tukar Tiket Lagi? (tekan 'y')         \n");
@@ -546,17 +581,56 @@ void tiket()
 	}
 }
 
-void redeemTiket(int requirement){
-    if (requirement > members[loginedIndex].tiket){
+void redeemTiket(int requirement)
+{
+	if (requirement > loginedMember.tiket)
+	{
 		printf("=====================================================\n");
-		printf("              Tiket Anda Tidak Mencukupi             \n");
+		printf("           Pilihan Yang Anda Masukkan Salah          \n");
 		printf("           Tekan ENTER  untuk mengulang....          \n");
 		printf("=====================================================\n");
 		getchar();
 
 		system("cls");
 		tiket();
-    }else{
-        members[loginedIndex].tiket -= requirement;
-    }
+	}
+	else
+	{
+		loginedMember.tiket -= requirement;
+		updateDataMember();
+	}
+}
+
+void updateDataMember()
+{
+	FILE *file = fopen("data.txt", "a+");
+	FILE *fTemp = fopen("copy.txt", "a");
+	int i;
+	int size = 0;
+	Member members[500];
+
+	while (!feof(file))
+	{
+		Member member;
+
+		fscanf(file, "%[^#]#%d#%d#%d#%d\n", &member.nama, &member.pin, &member.kartu, &member.saldo, &member.tiket);
+		fflush(stdin);
+
+		if (member.pin == loginedMember.pin)
+		{
+			member = loginedMember;
+		}
+		members[size] = member;
+		size++;
+	};
+
+	for (i = 0; i < size; i++)
+	{
+		fprintf(fTemp, "%s#%d#%d#%d#%d\n", members[i].nama, members[i].pin, members[i].kartu, members[i].saldo, members[i].tiket);
+	}
+
+	fclose(file);
+	fclose(fTemp);
+	remove("data.txt");
+	rename("copy.txt", "data.txt");
 }
