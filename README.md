@@ -7,11 +7,11 @@ Projek ini dibuat oleh 2 orang yaitu :
 2. Maria Christina Hartono (2105551010)
 Dengan Link Github Project Tugas : https://github.com/christinahrt/Timezone
 
-Text Editor yang kami gunakan adalah DevC++. Tetapi karena terkadang ada masalah saat mengcompile, kami menggunakan terminal replit untuk coba menjalankan program ini.
+Text Editor yang kami gunakan adalah DevC++. Anda dapat menggunakan IDE lain seperti Code::Blocks, Visual Studio Code dan lainnya.
 Program ini dapat dijalankan dengan :
 1. Mendownload repository Program Timezone ini pada komputer/laptop anda.
 2. Pastikan anda memiliki terminal based sesuai dengan sistem operasi koputer yang dipakai. Bisa menggunakan cygwin untuk sistem operasi windows.
 3. Lalu mengganti directory sesuai dengan dimana anda menyimpan folder Timezone ini. 
-4. Kemudian jalankan program dengan terminal yang anda miliki.
+4. Kemudian jalankan program dengan IDE yang anda miliki.
 
 Kami menyadari masih terdapat kekurangan dalam program kami ini, maka dari itu saran dan kritik sangat kami perlukan untuk pengembangan program ini menjadi lebih baik lagi.
