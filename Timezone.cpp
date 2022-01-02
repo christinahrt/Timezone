@@ -27,7 +27,7 @@ typedef struct
 	int tiket;
 } Member;
 
-Member loginedMember;
+Member loginedMember; //Deklarasi variabel loginedMember pada struct Member
 
 //Struct Teller untuk menyimpan teller namapetugas, dan pin
 struct Teller
@@ -43,10 +43,24 @@ struct Teller petugas = {
 // fungsi main () adalah kepala dari program ini, dimana program akan di eksekusi oleh fungsi main ini.
 int main()
 {
-	profil();
-	loginteller();
+	profil();	   //pemanggilan fungsi profil
+	loginteller(); //Pemanggilan fungsi login teller
 	return 0;
 }
+
+//=======================================================================//
+//*****       Fungsi Untuk Menampilkan Profil Pembuat Program       *****//
+//=======================================================================//
+// Nama Fungsi    : profil                                               //
+// Input Argumen  : -                                                    //
+// Output Argumen : -                                                    //
+// Deskripsi      : Menampilkan nama dari pembuat program                //
+// Versi : 1.0                                      Rev. 0               //
+// Tgl   : 5-12-2021                                Tgl: -               //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Kelas A                                                               //
+//=======================================================================//
 
 void profil()
 {
@@ -70,6 +84,21 @@ void profil()
 	getchar();
 	system("cls");
 }
+
+//=======================================================================//
+//*****                Fungsi Untuk Login Petugas                   *****//
+//=======================================================================//
+// Nama Fungsi    : loginteller                                          //
+// Input Argumen  : int inputpin                                         //
+// Output Argumen : Nama Petugas                                         //
+// Deskripsi      : Fungsi ini ditujukan untuk menginputkan pin  	 //
+//		    petugas yang terdaftar             			 //
+// Versi : 1.0                                      Rev. 0               //
+// Tgl   : 5-12-2021                               Tgl: -                //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Kelas A                                                               //
+//=======================================================================//
 
 void loginteller()
 {
@@ -109,6 +138,20 @@ mengulang:
 		goto mengulang;
 	}
 }
+
+//=======================================================================//
+//*****             Fungsi Untuk Menampilkan Menu Teller            *****//
+//=======================================================================//
+// Nama Fungsi    : menuTeller                                           //
+// Input Argumen  : -                                                    //
+// Output Argumen : -                                                    //
+// Deskripsi      : Menampilkan Pilihan Menu yang ada pada Menu Teller   //
+// Versi : 1.0                                      Rev. 0               //
+// Tgl   : 5-12-2021                               Tgl: -                //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Kelas A                                                               //
+//=======================================================================//
 
 void menuTeller()
 {
@@ -156,13 +199,29 @@ mengulang:
 	}
 }
 
+//=======================================================================//
+//*****                 Fungsi Untuk Login Member                   *****//
+//=======================================================================//
+// Nama Fungsi    : loginmember                                          //
+// Input Argumen  : int i, int pin                                       //
+// Output Argumen : Nama Member, Nomer Kartu, Jumlah Saldo, Jumlah Tiket //
+// Deskripsi      : Fungsi ini ditujukan untuk menginputkan kode member  //
+//		    untuk berlanjut ke menu berikutnya			 //
+// Versi : 1.1                                      Rev. 1               //
+// Tgl   : 5-12-2021                               Tgl: 1-01-2022        //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Revisi : Menambahkan fungsi file.txt					 //
+// Kelas A                                                               //
+//=======================================================================//
+
 void loginmember()
 {
 
 	int i;	 // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
 	int pin; // deklarasi variabel pin untuk memasukkan kode member
 
-	FILE *regis = fopen("data.txt", "a+");
+	FILE *regis = fopen("data.txt", "a+"); //Membuka file "data.txt" dengan mode "a+"
 mengulang:
 	system("cls");
 
@@ -175,17 +234,20 @@ mengulang:
 	scanf("%d", &pin);
 	fflush(stdin); //Perintah untuk membersihkan buffer
 
+	//Perulangan untuk mengecek data member dalam file data.txt
 	while (!feof(regis))
 	{
 		Member member;
 
+		//membaca data member dalam file data.txt
 		fscanf(regis, "%[^#]#%d#%d#%d#%d\n", &member.nama, &member.pin, &member.kartu, &member.saldo, &member.tiket);
 		fflush(stdin);
 
+		//kondisi untuk mengecek apakah pin yang diinputkan terdaftar pada sistem atau tidak
 		if (member.pin == pin)
 		{
 			loginedMember = member;
-			// jika member ditemukan
+			// jika pin member ditemukan maka sistem akan menampilkan data yang sesuai dengan pin yang diinputkan
 			printf("Nama Member            : %s                          \n", member.nama);
 			printf("Nomer Kartu            : %d                          \n", member.kartu);
 			printf("Jumlah Saldo           : Rp %d                       \n", member.saldo);
@@ -197,31 +259,49 @@ mengulang:
 
 			getchar();
 			system("cls");
-			fclose(regis);
-			menuMember();
+			fclose(regis); //menutup file data.txt
+			menuMember();  //masuk ke fungsi menuMember
 		}
 		i++;
 	};
 
+	//Jika pin member yang dimasukkan tidak ditemukan pada akun, sistem akan mengulang kembali ke fungsi loginmember
 	printf("=====================================================\n");
 	printf("            Member tersebut belum terdaftar          \n");
-	printf("            Tekan ENTER  untuk mengulang...          \n");
+	printf("          Silahkan registrasi terlebih dahulu        \n");
+	printf("             Tekan ENTER  untuk kembali...           \n");
 	printf("=====================================================\n");
 
 	getchar();
 	system("cls");
 
-	loginmember();
-	fclose(regis);
+	menuTeller();  //kembali ke fungsi menuTeller
+	fclose(regis); //menutup file data.txt
 }
+
+//=======================================================================//
+//*****               Fungsi Untuk Registrasi Member                *****//
+//=======================================================================//
+// Nama Fungsi    : registrasiMember                                     //
+// Input Argumen  : int i, Member newMember                              //
+// Deskripsi      : Fungsi ini ditujukan untuk menginputkan kode member  //
+//		    untuk disimpan pada file data.txt yang nantinya      //
+//     		    akan divalidasi saat login           		 //
+// Versi : 1.1                                      Rev. 1               //
+// Tgl   : 5-12-2021                               Tgl: 1-01-2022        //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010			 		 //
+// Revisi : Menambahkan fungsi file.txt					 //
+// Kelas A                                                               //
+//=======================================================================//
 
 void registrasiMember()
 {
 
-	int i; // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
-	Member newMember;
+	int i;			  // deklarasi variabel i untuk perulangan mengecek pin member baru agar tidak sama dengan pin member yang sudah ada
+	Member newMember; //deklarasi struct member dengan variabel newMember
 
-	FILE *regis = fopen("data.txt", "a+");
+	FILE *regis = fopen("data.txt", "a+"); //Membuka file "data.txt" dengan mode "a+"
 
 mengulang:
 	system("cls");
@@ -229,18 +309,20 @@ mengulang:
 	printf("=====================================================\n");
 	printf("                REGISTRASI MEMBER BARU      	     \n");
 	printf("=====================================================\n");
-
 	printf("Masukkan Kode     : ");
 	scanf("%d", &newMember.pin);
 	fflush(stdin);
 
+	//Perulangan untuk mengecek data member dalam file data.txt
 	while (!feof(regis))
 	{
 		Member member;
 
+		//membaca data member dalam file data.txt
 		fscanf(regis, "%[^#]#%d#%d#%d#%d\n", &member.nama, &member.pin, &member.kartu, &member.saldo, &member.tiket);
 		fflush(stdin);
 
+		//kondisi untuk mengecek apakah kode yang diinputkan sudah terdaftar atau belum, jika sudah terdaftar maka sistem akan meminta user untuk mengulang memasukan kode
 		if (member.pin == newMember.pin)
 		{
 			printf("=====================================================\n");
@@ -253,6 +335,7 @@ mengulang:
 		i++;
 	};
 
+	//Jika kode yang diinputkan belum terdaftar pada sistem maka sistem akan meminta user untuk menginputkan nama, no. kartu dengan jumlah saldo dan tiket awal adalah 0
 	printf("Masukkan Nama     : ");
 	scanf("%[^\n]", newMember.nama);
 	fflush(stdin);
@@ -267,10 +350,11 @@ mengulang:
 	printf("Tiket Anda        : 0\n");
 	newMember.tiket = 0;
 
+	//menuliskan data member baru dalam file data.txt
 	fprintf(regis, "%s#%d#%d#%d#%d\n", newMember.nama, newMember.pin, newMember.kartu, newMember.saldo, newMember.tiket);
-	fclose(regis);
+	fclose(regis); //menutup file data.txt
 
-	printf("\nMember %s telah didaftarkan\n", newMember.nama);
+	printf("\nMember %s telah didaftarkan\n", newMember.nama); //Pemberitahuan member telah terdaftar pada sistem dan disimpan dalam file data.txt
 	printf("=====================================================\n");
 	printf("            Member Baru Berhasil Terdaftar           \n");
 	printf("          Tekan ENTER  untuk melanjutkan....         \n");
@@ -279,6 +363,20 @@ mengulang:
 	system("cls");
 	menuTeller();
 }
+
+//=======================================================================//
+//*****             Fungsi Untuk Menampilkan Menu Member            *****//
+//=======================================================================//
+// Nama Fungsi    : menuMember                       	                 //
+// Input Argumen  : -                                                    //
+// Deskripsi      : Fungsi ini ditujukan untuk Menampilkan Pilihan pada  //
+//		    Menu Member                                          //
+// Versi : 1.0                                      Rev. 0               //
+// Tgl   : 5-12-2021                               Tgl: -                //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Kelas A                                                               //
+//=======================================================================//
 
 void menuMember()
 {
@@ -324,6 +422,22 @@ void menuMember()
 	}
 }
 
+//=======================================================================//
+//*****       Fungsi Untuk Menambahkan Saldo Pada Akun Member       *****//
+//=======================================================================//
+// Nama Fungsi    : menusaldo		                                 //
+// Input Argumen  : char kondisi, int input                              //
+// Output Argumen : Total Saldo Pada Akun Member			 //
+// Deskripsi      : Fungsi ini ditujukan untuk menambahkan saldo pada	 //
+//		    kode member untuk disimpan pada file data.txt        //
+// Versi : 1.1                                      Rev. 1               //
+// Tgl   : 5-12-2021                               Tgl: 1-01-2022        //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Revisi : Menambahkan fungsi updateDataMember				 //
+// Kelas A                                                               //
+//=======================================================================//
+
 void menusaldo()
 {
 	char kondisi; //deklarasi untuk variabel kondisi
@@ -331,7 +445,7 @@ void menusaldo()
 mengulang:
 
 	printf("=====================================================\n");
-	printf("                   MENU TAMBAH SALDO    	     	   \n");
+	printf("                   MENU TAMBAH SALDO    	         \n");
 	printf("=====================================================\n");
 	printf("  1. 50.000\n");
 	printf("  2. 100.000\n");
@@ -340,10 +454,11 @@ mengulang:
 	printf("  5. 300.000 bonus 300.000\n");
 	printf("  0. Kembali\n\n");
 
-	printf("\n\nMasukkan Pilihan : ");
+	printf("Masukkan Pilihan : ");
 	scanf("%d", &input);
 	fflush(stdin);
 
+	//Percabangan untuk menambahkan saldo yang ada pada akun sesuai dengan pilihan yang diinputkan
 	switch (input)
 	{
 	case 1: //nilai variabel input = 1
@@ -387,7 +502,7 @@ mengulang:
 		break;
 	}
 
-	//	printf("\nTotal Saldo: Rp.%d\n", members[loginedIndex].saldo);
+	printf("\nTotal Saldo: Rp.%d\n", loginedMember.saldo);
 	printf("=====================================================\n");
 	printf("                Saldo Berhasil Diisi                 \n");
 	printf("          Ingin Isi Saldo Lagi? (tekan 'y')          \n");
@@ -421,6 +536,22 @@ mengulang:
 	}
 }
 
+//=======================================================================//
+//*****            Fungsi Untuk Penukaran Tiket Member              *****//
+//=======================================================================//
+// Nama Fungsi    : tiket                                                //
+// Input Argumen  : char kondisi, int inputtiket                         //
+// Deskripsi      : Fungsi ini ditujukan untuk menukarkan tiket yang ada //
+//		    sesuai dengan jumlah saldo pada akun member		 //
+// Versi : 1.1                                      Rev. 1               //
+// Tgl   : 5-12-2021                               Tgl: 1-01-2022        //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010					 //
+// Revisi : Menampilkan pilihan hadiah penukaran tiket sesuai dengan     //
+//          jumlah saldo tiket yang tersedia pada akun member		 //
+// Kelas A                                                               //
+//=======================================================================//
+
 void tiket()
 {
 	char kondisi;	//deklarasi variabel kondisi
@@ -432,16 +563,17 @@ mengulang:
 	printf("=====================================================\n");
 	printf("Jumlah Tiket   : %d                                  \n\n", loginedMember.tiket);
 
+	//Menampilkan pilihan sesuai dengan jumlah tiket yang tersedia
 	if (loginedMember.tiket >= 50)
-	{
+	{ //jika saldo tiket pada akun member lebih besar sama dengan 50 maka muncul pilihan 1
 		printf("  1. 50 Tiket  = Pulpen\n");
 	}
 	if (loginedMember.tiket >= 100)
-	{
+	{ //jika saldo tiket pada akun member lebih besar sama dengan 100 maka muncul pilihan 1-2
 		printf("  2. 100 Tiket = Buku Tulis\n");
 	}
 	if (loginedMember.tiket >= 150)
-	{
+	{ //jika saldo tiket pada akun member lebih besar sama dengan 150 maka muncul pilihan 1-3, begitu seterusnya
 		printf("  3. 150 Tiket = Penggaris\n");
 	}
 	if (loginedMember.tiket >= 200)
@@ -478,54 +610,48 @@ mengulang:
 	scanf("%d", &inputtiket);
 	fflush(stdin);
 
+	//Percabangan dengan variabel inputtiket
 	switch (inputtiket)
 	{
 	//pada case 1 ini, karena user memilih option nomer 1 maka jumlah tiket yang ada pada akun akan dikurang dengan 50 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 1:
-		redeemTiket(50);
+		redeemTiket(50); //Pemanggilan fungsi redeemTiket
 		break;
 
 	//pada case 2 ini, karena user memilih option nomer 2 maka jumlah tiket yang ada pada akun akan dikurang dengan 100 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 2:
-		redeemTiket(100);
+		redeemTiket(100); //Pemanggilan fungsi redeemTiket
 		break;
 
-	//pada case 3 ini, karena user memilih option nomer 3 maka jumlah tiket yang ada pada akun akan dikurang dengan 150 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
+	//pada case 3 ini, karena user memilih option nomer 3 maka jumlah tiket yang ada pada akun akan dikurang dengan 150 tiket untuk dapat menukarkan hadiah yang telah ditetapkan begitu seterusnya
 	case 3:
-		redeemTiket(150);
+		redeemTiket(150); //Pemanggilan fungsi redeemTiket
 		break;
 
-	//pada case 4 ini, karena user memilih option nomer 4 maka jumlah tiket yang ada pada akun akan dikurang dengan 200 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 4:
 		redeemTiket(200);
 		break;
 
-	//pada case 5 ini, karena user memilih option nomer 5 maka jumlah tiket yang ada pada akun akan dikurang dengan 250 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 5:
 		redeemTiket(250);
 		break;
 
-	//pada case 6 ini, karena user memilih option nomer 6 maka jumlah tiket yang ada pada akun akan dikurang dengan 300 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 6:
 		redeemTiket(300);
 		break;
 
-	//pada case 7 ini, karena user memilih option nomer 7 maka jumlah tiket yang ada pada akun akan dikurang dengan 350 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 7:
 		redeemTiket(350);
 		break;
 
-	//pada case 8 ini, karena user memilih option nomer 8 maka jumlah tiket yang ada pada akun akan dikurang dengan 400 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 8:
 		redeemTiket(400);
 		break;
 
-	//pada case 9 ini, karena user memilih option nomer 9 maka jumlah tiket yang ada pada akun akan dikurang dengan 450 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 9:
 		redeemTiket(450);
 		break;
 
-	//pada case 10 ini, karena user memilih option nomer 10 maka jumlah tiket yang ada pada akun akan dikurang dengan 500 tiket untuk dapat menukarkan hadiah yang telah ditetapkan
 	case 10:
 		redeemTiket(500);
 		break;
@@ -535,19 +661,9 @@ mengulang:
 		system("cls");
 		menuMember();
 		break;
-	default:
-		printf("=====================================================\n");
-		printf("           Pilihan Yang Anda masukkan Salah          \n");
-		printf("           Tekan ENTER  untuk mengulang....          \n");
-		printf("=====================================================\n");
-		getchar();
-
-		system("cls");
-		goto mengulang;
-		break;
 	}
 
-	printf("Sisa Tiket Anda Sebesar : %d\n", loginedMember.tiket);
+	printf("Sisa Tiket Anda Sebesar : %d\n", loginedMember.tiket); //Jumlah sisa tiket setelah melakukan penukaran tiket dilakukan
 	printf("=====================================================\n");
 	printf("           Penukaran Tiket Telah Berhasil            \n");
 	printf("         Ingin Tukar Tiket Lagi? (tekan 'y')         \n");
@@ -581,10 +697,30 @@ mengulang:
 	}
 }
 
+//=======================================================================//
+//*****                 Fungsi Untuk Redeem Tiket                   *****//
+//=======================================================================//
+// Nama Fungsi    : redeemTiket(int requirement)                         //
+// Input Argumen  : -							 //
+// Deskripsi      : Fungsi ini ditujukan untuk melakukan pengecekan      //
+//		    apabila pilihan yang diinputkan melebihi dari apa    //
+//		    yang tersedia pada pilihan, maka sistem akan meminta //
+//		    user memasukan pilihan dengan benar sesuai tiket     //
+//		    yang tersedia					 //
+// Versi : 1.1                                      Rev. 1               //
+// Tgl   : 5-12-2021                               Tgl: 1-01-2022        //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010			 		 //
+// Revisi : Menambahkan fungsi updateDataMember setelah melakukan        //
+//	    penukaran tiket untuk mengubah data yang ada pada file       //
+//	    data.txt			                                 //
+// Kelas A                                                               //
+//=======================================================================//
+
 void redeemTiket(int requirement)
 {
 	if (requirement > loginedMember.tiket)
-	{
+	{ //Jika requirement yang diinputkan melebihi dari saldo tiket yang ada pada akun member
 		printf("=====================================================\n");
 		printf("           Pilihan Yang Anda Masukkan Salah          \n");
 		printf("           Tekan ENTER  untuk mengulang....          \n");
@@ -595,27 +731,46 @@ void redeemTiket(int requirement)
 		tiket();
 	}
 	else
-	{
+	{ //Jika requirement yang diinputkan tidak melebihi dari saldo tiket pada akun member maka requirement yang diinputkan akan dikurangi dengan jumlah tiket yang ada
 		loginedMember.tiket -= requirement;
-		updateDataMember();
+		updateDataMember(); //data yang ada pada data.txt akan diupdate
 	}
 }
 
+//=======================================================================//
+//*****               Fungsi Untuk Update Data Member               *****//
+//=======================================================================//
+// Nama Fungsi    : updateDataMember                                     //
+// Input Argumen  : int i, int size=0			                 //
+// Deskripsi      : Fungsi ini ditujukan untuk mengupdate data yang ada  //
+//		    pada file data member pada data.txt		     	 //
+// Versi : 1.1                                      Rev. 1               //
+// Tgl   : 5-12-2021                               Tgl: 1-01-2022        //
+// Benita Carissa Sutrisno Putri - 2105551002                            //
+// Maria Christina Hartono - 2105551010`				 //
+// Revisi : Mengupdate setiap data setelah melakukan penambahan saldo    //
+//	    atau penukaran tiket                  			 //
+// Kelas A                                                               //
+//=======================================================================//
+
 void updateDataMember()
 {
-	FILE *file = fopen("data.txt", "a+");
-	FILE *fTemp = fopen("copy.txt", "a");
-	int i;
-	int size = 0;
-	Member members[500];
+	FILE *file = fopen("data.txt", "a+"); // Membuka file "data.txt" dengan mode "a+"
+	FILE *fTemp = fopen("copy.txt", "a"); // Membuka file "copy.txt" dengan mode "a"
+	int i;								  //deklarasi variabel i dengan tipe data integer
+	int size = 0;						  //deklarasi variabel size=0 dengan tipe data integer
+	Member members[500];				  //deklarasi variabel member[500] dengan struct Member
 
+	//Perulangan untuk mengecek data member dalam file data.txt
 	while (!feof(file))
 	{
 		Member member;
 
+		//membaca data member dalam file data.txt
 		fscanf(file, "%[^#]#%d#%d#%d#%d\n", &member.nama, &member.pin, &member.kartu, &member.saldo, &member.tiket);
 		fflush(stdin);
 
+		//kondisi untuk mengecek pin member sama dengan member yang login
 		if (member.pin == loginedMember.pin)
 		{
 			member = loginedMember;
@@ -624,13 +779,14 @@ void updateDataMember()
 		size++;
 	};
 
+	//perulangan untuk menulis update data terbaru member dalam file copy.txt
 	for (i = 0; i < size; i++)
 	{
 		fprintf(fTemp, "%s#%d#%d#%d#%d\n", members[i].nama, members[i].pin, members[i].kartu, members[i].saldo, members[i].tiket);
 	}
 
-	fclose(file);
-	fclose(fTemp);
-	remove("data.txt");
-	rename("copy.txt", "data.txt");
+	fclose(file);					//menutup file data.txt
+	fclose(fTemp);					//menutup file copy.txt
+	remove("data.txt");				//menghapus file data.txt yang lama
+	rename("copy.txt", "data.txt"); //mengganti nama file copy.txt menjadi data.txt
 }
